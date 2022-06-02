@@ -7,5 +7,7 @@ import com.getseatgo.gsgspring.model.entitymodel.BusStop;
 
 @Repository
 public interface BusStopRepository extends JpaRepository<BusStop,Long> {
+	
+	BusStop findByBusStopName(String busStopName);
 
 }

@@ -11,16 +11,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.getseatgo.gsgspring.model.QueryRequest;
+import com.getseatgo.gsgspring.model.entitymodel.BusStop;
 import com.getseatgo.gsgspring.service.BusStopService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@Tag(name = "AppApi", description = "App Api Call controller")
+@Tag(name = "App-Apis", description = "App Api Call controller")
 public class AppApiController {
 	
 	@Autowired
 	private BusStopService busStopService;
+	
 	
 	@GetMapping("/all-bus-stops")
 	public ResponseEntity<?> getAllBusStops(){
@@ -36,6 +38,16 @@ public class AppApiController {
 	@PostMapping("/booking-query")
 	public ResponseEntity<?> getQueryResult(@RequestBody QueryRequest queryRequest){
 		//TODO Logic to fetch details absed on bate and src and desination
+		try {
+			BusStop sourceBS=busStopService.fetchBusStop(queryRequest.getSourceBusStop().toUpperCase());
+			BusStop destinationBS=busStopService.fetchBusStop(queryRequest.getDestinationBusStop().toUpperCase());
+			//TODO
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		return null;
 	}
 	

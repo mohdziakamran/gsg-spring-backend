@@ -1,55 +1,88 @@
 package com.getseatgo.gsgspring.model;
 
-import java.io.Serializable;
+import javax.annotation.Generated;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-public class Address  implements Serializable {
-	
-	private static final long serialVersionUID = 5926468583005150707L;
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({ "houseStreet", "city", "state", "pincode", "country" })
+@Generated("jsonschema2pojo")
+public class Address {
+
+	@JsonProperty("houseStreet")
 	private String houseStreet;
+	@JsonProperty("city")
 	private String city;
-	private String pincode;
-	private String country;
+	@JsonProperty("state")
 	private String state;
-	public Address(String houseStreet, String city, String pincode, String country, String state) {
-		super();
-		this.houseStreet = houseStreet;
-		this.city = city;
-		this.pincode = pincode;
-		this.country = country;
-		this.state = state;
-	}
-	public Address() {
-		super();
-	}
+	@JsonProperty("pincode")
+	private String pincode;
+	@JsonProperty("country")
+	private String country;
+
+	@JsonProperty("houseStreet")
 	public String getHouseStreet() {
 		return houseStreet;
 	}
+
+	@JsonProperty("houseStreet")
 	public void setHouseStreet(String houseStreet) {
 		this.houseStreet = houseStreet;
 	}
+
+	@JsonProperty("city")
 	public String getCity() {
 		return city;
 	}
+
+	@JsonProperty("city")
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public String getPincode() {
-		return pincode;
-	}
-	public void setPincode(String pincode) {
-		this.pincode = pincode;
-	}
-	public String getCountry() {
-		return country;
-	}
-	public void setCountry(String country) {
-		this.country = country;
-	}
+
+	@JsonProperty("state")
 	public String getState() {
 		return state;
 	}
+
+	@JsonProperty("state")
 	public void setState(String state) {
 		this.state = state;
 	}
+
+	@JsonProperty("pincode")
+	public String getPincode() {
+		return pincode;
+	}
+
+	@JsonProperty("pincode")
+	public void setPincode(String pincode) {
+		this.pincode = pincode;
+	}
+
+	@JsonProperty("country")
+	public String getCountry() {
+		return country;
+	}
+
+	@JsonProperty("country")
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public Address(String houseStreet, String city, String state, String pincode, String country) {
+		super();
+		this.houseStreet = houseStreet;
+		this.city = city;
+		this.state = state;
+		this.pincode = pincode;
+		this.country = country;
+	}
+
+	public Address() {
+		super();
+	}
 	
+
 }

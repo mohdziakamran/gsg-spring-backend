@@ -7,5 +7,6 @@ import com.getseatgo.gsgspring.model.entitymodel.AgencyInfo;
 
 @Repository
 public interface AgencyInfoRepository extends JpaRepository<AgencyInfo,Long> {
-
+	AgencyInfo findByAgencyName(String agencyName);
+	AgencyInfo findByEmail(String email);
 }
