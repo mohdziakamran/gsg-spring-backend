@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "busName",
     "busNumber",
     "totalSeat",
+    "startBusStop",
+    "departureTime",
     "busRoutes",
     "sunday",
     "monday",
@@ -29,7 +31,11 @@ public class Bus {
     @JsonProperty("busNumber")
     private String busNumber;
     @JsonProperty("totalSeat")
-    private String totalSeat;
+    private Integer totalSeat;
+    @JsonProperty("startBusStop")
+    private String startBusStop;
+    @JsonProperty("departureTime")
+    private String departureTime;
     @JsonProperty("busRoutes")
     private List<BusRoute> busRoutes = null;
     @JsonProperty("sunday")
@@ -68,13 +74,33 @@ public class Bus {
     }
 
     @JsonProperty("totalSeat")
-    public String getTotalSeat() {
+    public Integer getTotalSeat() {
         return totalSeat;
     }
 
     @JsonProperty("totalSeat")
-    public void setTotalSeat(String totalSeat) {
+    public void setTotalSeat(Integer totalSeat) {
         this.totalSeat = totalSeat;
+    }
+
+    @JsonProperty("startBusStop")
+    public String getStartBusStop() {
+        return startBusStop;
+    }
+
+    @JsonProperty("startBusStop")
+    public void setStartBusStop(String startBusStop) {
+        this.startBusStop = startBusStop;
+    }
+
+    @JsonProperty("departureTime")
+    public String getDepartureTime() {
+        return departureTime;
+    }
+
+    @JsonProperty("departureTime")
+    public void setDepartureTime(String departureTime) {
+        this.departureTime = departureTime;
     }
 
     @JsonProperty("busRoutes")

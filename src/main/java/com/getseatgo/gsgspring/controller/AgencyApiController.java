@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.getseatgo.gsgspring.config.JwtToken;
+import com.getseatgo.gsgspring.model.AddBusesRequest;
 import com.getseatgo.gsgspring.model.CreateAbstractAgencyRequest;
 import com.getseatgo.gsgspring.model.CreateAbstractAgencyResponse;
 import com.getseatgo.gsgspring.model.UpdateAgencyDetailsRequest;
@@ -45,19 +46,41 @@ public class AgencyApiController {
     	return ResponseEntity.ok(response);
     }
     
+    /**Update Agency details endpoint for Agents
+     * @param body
+     * @param bearerToken
+     * @return
+     */
     @PostMapping("/update-agency-details")
     public ResponseEntity<?> updateAgencyDetails(@RequestBody UpdateAgencyDetailsRequest body,
     		@RequestHeader(value="Authorization") String bearerToken){
     	
     	try {
     		String username = jwtToken.getUsernameFromToken(bearerToken.split(" ")[1]);
-    		agencyService.validateAndUpdateAgencyDetailsRequest(body,username);
+    		agencyService.processAgencyDetailsRequest(body,username);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().body(e.getMessage());
 		}
     	return ResponseEntity.ok("Successfully Updated Agency Details");
     }
     
+    @PostMapping("/add-buses")
+    public ResponseEntity<?> addBusDetails(@RequestBody AddBusesRequest body,
+    		@RequestHeader(value="Authorization") String bearerToken){
+    	
+    	try {
+    		String username = jwtToken.getUsernameFromToken(bearerToken.split(" ")[1]);
+    		agencyService.processAddBusRequest(body,username);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+    	return ResponseEntity.ok("Successfully Added Bus/Buses Details");
+    }
     
+//    @PostMapping("/remove-bus")
+//    public ResponseEntity<?> removeBus(@RequestBody UpdateAgencyDetailsRequest body,
+//    		@RequestHeader(value="Authorization") String bearerToken){
+//    	return null;
+//    }
 
 }

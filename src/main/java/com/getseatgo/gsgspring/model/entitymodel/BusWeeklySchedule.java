@@ -13,12 +13,9 @@ public class BusWeeklySchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    //private Long busId;
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private BusInfo bus;
-    //private Long startBusStopId;
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private BusStop startBusStop;
     private boolean monday;
     private boolean tuesday;
@@ -27,22 +24,9 @@ public class BusWeeklySchedule {
     private boolean friday;
     private boolean saturday;
     private boolean sunday;
+    
 	public BusWeeklySchedule() {
 		super();
-		// TODO Auto-generated constructor stub
-	}
-	public BusWeeklySchedule(BusInfo bus, BusStop startBusStop, boolean monday, boolean tuesday, boolean wednesday,
-			boolean thursday, boolean friday, boolean saturday, boolean sunday) {
-		super();
-		this.bus = bus;
-		this.startBusStop = startBusStop;
-		this.monday = monday;
-		this.tuesday = tuesday;
-		this.wednesday = wednesday;
-		this.thursday = thursday;
-		this.friday = friday;
-		this.saturday = saturday;
-		this.sunday = sunday;
 	}
 	public Long getId() {
 		return id;
@@ -59,8 +43,21 @@ public class BusWeeklySchedule {
 	public BusStop getStartBusStop() {
 		return startBusStop;
 	}
-	public void setStartBusStop(BusStop startBusStop) {
-		this.startBusStop = startBusStop;
+	public void setStartBusStop(BusStop busStop) {
+		this.startBusStop = busStop;
+	}
+	public BusWeeklySchedule(BusInfo busInfo, BusStop busStop, boolean monday, boolean tuesday, boolean wednesday,
+			boolean thursday, boolean friday, boolean saturday, boolean sunday) {
+		super();
+		this.bus = busInfo;
+		this.startBusStop = busStop;
+		this.monday = monday;
+		this.tuesday = tuesday;
+		this.wednesday = wednesday;
+		this.thursday = thursday;
+		this.friday = friday;
+		this.saturday = saturday;
+		this.sunday = sunday;
 	}
 	public boolean isMonday() {
 		return monday;

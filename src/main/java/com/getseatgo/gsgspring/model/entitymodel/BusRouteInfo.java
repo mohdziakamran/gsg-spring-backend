@@ -25,22 +25,29 @@ public class BusRouteInfo {
     //private Long endBusStopId;
     @ManyToOne (fetch = FetchType.LAZY)
     private BusStop endBusStop;
-    private Float fare;
-    private Time departureTime;
+    private Double fare;
+    private Long departureTimeInSec;
     private Long travelDurationInSec;
+    private String routeSeq;
 	public BusRouteInfo() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	public BusRouteInfo(BusInfo bus, BusStop startBusStop, BusStop endBusStop, Float fare, Time departureTime,
-			Long travelDurationInSec) {
+	public Long getDepartureTimeInSec() {
+		return departureTimeInSec;
+	}
+	public void setDepartureTimeInSec(Long departureTimeInSec) {
+		this.departureTimeInSec = departureTimeInSec;
+	}
+	public BusRouteInfo(BusInfo bus, BusStop startBusStop, BusStop endBusStop, Double fare, Long departureTimeInSec,
+			Long travelDurationInSec, String routeSeq) {
 		super();
 		this.bus = bus;
 		this.startBusStop = startBusStop;
 		this.endBusStop = endBusStop;
 		this.fare = fare;
-		this.departureTime = departureTime;
+		this.departureTimeInSec = departureTimeInSec;
 		this.travelDurationInSec = travelDurationInSec;
+		this.routeSeq = routeSeq;
 	}
 	public Long getId() {
 		return id;
@@ -66,17 +73,11 @@ public class BusRouteInfo {
 	public void setEndBusStop(BusStop endBusStop) {
 		this.endBusStop = endBusStop;
 	}
-	public Float getFare() {
+	public Double getFare() {
 		return fare;
 	}
-	public void setFare(Float fare) {
+	public void setFare(Double fare) {
 		this.fare = fare;
-	}
-	public Time getDepartureTime() {
-		return departureTime;
-	}
-	public void setDepartureTime(Time departureTime) {
-		this.departureTime = departureTime;
 	}
 	public Long getTravelDurationInSec() {
 		return travelDurationInSec;
@@ -84,7 +85,11 @@ public class BusRouteInfo {
 	public void setTravelDurationInSec(Long travelDurationInSec) {
 		this.travelDurationInSec = travelDurationInSec;
 	}
-    
-    
+	public String getRouteSeq() {
+		return routeSeq;
+	}
+	public void setRouteSeq(String routeSeq) {
+		this.routeSeq = routeSeq;
+	}
     
 }

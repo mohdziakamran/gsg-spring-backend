@@ -1,6 +1,7 @@
 
 package com.getseatgo.gsgspring.model;
 
+import java.util.List;
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,66 +9,38 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "startBusStop",
-    "endBusStop",
-    "fare",
-    "departureTime",
+    "busStop",
+    "fares",
     "travelDuration"
 })
 @Generated("jsonschema2pojo")
 public class BusRoute {
 
-    @JsonProperty("startBusStop")
-    private String startBusStop;
-    @JsonProperty("endBusStop")
-    private String endBusStop;
-    @JsonProperty("fare")
-    private String fare;
-    //HH:MM:SS
-    @JsonProperty("departureTime")
-    private String departureTime;
-    //HH:MM:SS
+    @JsonProperty("busStop")
+    private String busStop;
+    @JsonProperty("fares")
+    private List<Double> fares = null;
     @JsonProperty("travelDuration")
     private String travelDuration;
 
-    @JsonProperty("startBusStop")
-    public String getStartBusStop() {
-        return startBusStop;
+    @JsonProperty("busStop")
+    public String getBusStop() {
+        return busStop;
     }
 
-    @JsonProperty("startBusStop")
-    public void setStartBusStop(String startBusStop) {
-        this.startBusStop = startBusStop;
+    @JsonProperty("busStop")
+    public void setBusStop(String busStop) {
+        this.busStop = busStop;
     }
 
-    @JsonProperty("endBusStop")
-    public String getEndBusStop() {
-        return endBusStop;
+    @JsonProperty("fares")
+    public List<Double> getFares() {
+        return fares;
     }
 
-    @JsonProperty("endBusStop")
-    public void setEndBusStop(String endBusStop) {
-        this.endBusStop = endBusStop;
-    }
-
-    @JsonProperty("fare")
-    public String getFare() {
-        return fare;
-    }
-
-    @JsonProperty("fare")
-    public void setFare(String fare) {
-        this.fare = fare;
-    }
-
-    @JsonProperty("departureTime")
-    public String getDepartureTime() {
-        return departureTime;
-    }
-
-    @JsonProperty("departureTime")
-    public void setDepartureTime(String departureTime) {
-        this.departureTime = departureTime;
+    @JsonProperty("fares")
+    public void setFares(List<Double> fares) {
+        this.fares = fares;
     }
 
     @JsonProperty("travelDuration")
