@@ -235,6 +235,7 @@ public class AgencyApiService {
 	 * @return
 	 */
 	private BusStop fetchBusStop(String busStop, Map<String, BusStop> cacheBusStopMap) {
+		busStop=busStop.toUpperCase();
 		if(!cacheBusStopMap.containsKey(busStop)) {
 			BusStop bstop = busStopRepository.findByBusStopName(busStop);
 			if (Objects.isNull(bstop))
@@ -251,8 +252,7 @@ public class AgencyApiService {
 	private Duration parseDuration(String travelDuration) {
 		String[] travelDurationStringArr=travelDuration.split(":");
 		Duration td=Duration.ofHours(Long.parseLong(travelDurationStringArr[0]))
-				.plusMinutes(Long.parseLong(travelDurationStringArr[1]))
-				.plusSeconds(Long.parseLong(travelDurationStringArr[2]));
+				.plusMinutes(Long.parseLong(travelDurationStringArr[1]));
 		return td;
 	}
 
@@ -279,6 +279,48 @@ public class AgencyApiService {
 		busWeeklySchedule.setSunday(scheduleArr[Math.floorMod((6-index), 7)]);
 		
 		return busWeeklySchedule;
+	}
+
+	/**Method to Dete Bus Details based on Busname and bus Number and Agency match
+	 * @param username
+	 * @param busName
+	 * @param busNumber
+	 */
+	public void processDeleteBusRequest(String username, String busName, String busNumber) {
+		
+		//***validation
+		//validate user is from any agency
+		//check bus exist with given anme and number 
+		//chceck bus belongs to same agency as user
+//		logger.info("Validation Pass for Bus Entity Deletion");
+		
+		//***perform Delete operation
+		//delete all schedule related to this bus
+		//delete all routes related to this bus
+		//delete all tickets related to this bus
+		//delete bus 
+//		logger.info("Bus Deletion Successfull bu Agent : {}, from agency {}",username, agencyInfo.getAgencyName());
+		
+	}
+
+	/**Method to Update Bus Detail
+	 * @param username
+	 * @param busName
+	 * @param busNumber
+	 * @param body
+	 */
+	public void processUpdateBusRequest(String username, String busName, String busNumber, Bus body) {
+		//***validation
+		//Note: we can add code from delete bus	
+		//validate user is from any agency
+		//check bus exist with given anme and number 
+		//chceck bus belongs to same agency as user
+//		logger.info("Validation Pass for Bus Entity Updation");
+		
+		//***Perform Update Operation
+		// we can delete the old bus and Add new one
+		//to add new one we can use code from add buses
+		
 	}
 	
 	

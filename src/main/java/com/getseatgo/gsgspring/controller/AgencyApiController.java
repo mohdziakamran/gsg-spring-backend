@@ -4,13 +4,17 @@ package com.getseatgo.gsgspring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.getseatgo.gsgspring.config.JwtToken;
 import com.getseatgo.gsgspring.model.AddBusesRequest;
+import com.getseatgo.gsgspring.model.Bus;
 import com.getseatgo.gsgspring.model.CreateAbstractAgencyRequest;
 import com.getseatgo.gsgspring.model.CreateAbstractAgencyResponse;
 import com.getseatgo.gsgspring.model.UpdateAgencyDetailsRequest;
@@ -77,10 +81,31 @@ public class AgencyApiController {
     	return ResponseEntity.ok("Successfully Added Bus/Buses Details");
     }
     
-//    @PostMapping("/remove-bus")
-//    public ResponseEntity<?> removeBus(@RequestBody UpdateAgencyDetailsRequest body,
-//    		@RequestHeader(value="Authorization") String bearerToken){
-//    	return null;
-//    }
+    @DeleteMapping("/delete-bus")
+    public ResponseEntity<?> removeBus(@RequestParam (value = "busname", required = true) String busName,
+    		@RequestParam (value = "busnumber", required = true) String busNumber,
+    		@RequestHeader(value="Authorization") String bearerToken){
+    	try {
+    		String username = jwtToken.getUsernameFromToken(bearerToken.split(" ")[1]);
+    		agencyService.processDeleteBusRequest(username,busName,busNumber);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+    	return ResponseEntity.ok("success");
+    }
+    
+    @PostMapping("modifybusdetails")
+    public ResponseEntity<?> updateBus(@RequestParam (value = "busname", required = true) String busName,
+    		@RequestParam (value = "busnumber", required = true) String busNumber,
+    		@RequestBody Bus body,
+    		@RequestHeader(value="Authorization") String bearerToken){
+    	try {
+    		String username = jwtToken.getUsernameFromToken(bearerToken.split(" ")[1]);
+    		agencyService.processUpdateBusRequest(username,busName,busNumber,body);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+    	return ResponseEntity.ok("success");
+    }
 
 }
