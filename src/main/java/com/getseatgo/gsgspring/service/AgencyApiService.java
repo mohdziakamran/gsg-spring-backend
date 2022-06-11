@@ -297,7 +297,6 @@ public class AgencyApiService {
 		//***perform Delete operation
 		//delete all schedule related to this bus
 		//delete all routes related to this bus
-		//delete all tickets related to this bus
 		//delete bus 
 //		logger.info("Bus Deletion Successfull bu Agent : {}, from agency {}",username, agencyInfo.getAgencyName());
 		

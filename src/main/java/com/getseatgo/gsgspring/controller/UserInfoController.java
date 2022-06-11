@@ -45,12 +45,8 @@ public class UserInfoController {
     public ResponseEntity<String> createUser(@RequestBody CreateUserRequest body) throws NoSuchAlgorithmException {
     	try {
     		//1. validate the incoming request
-			UtilityMethods.assertOverload(Objects.isNull(body) , new ValidationException("Invalid Payload Body Exception"));
-			UtilityMethods.assertOverload(StringUtils.isEmpty(body.getUsername()) , new ValidationException("Invalid Payload Email/Username Exception"));
-			UtilityMethods.assertOverload(StringUtils.isEmpty(body.getPassword()) , new ValidationException("Invalid Payload Password Exception"));
-			UtilityMethods.assertOverload(StringUtils.isEmpty(body.getFirstname()) , new ValidationException("Invalid Payload Firstname Exception"));
-			UtilityMethods.assertOverload(StringUtils.isEmpty(body.getLastname()) , new ValidationException("Invalid Payload Lasttname Exception"));
-    		
+    		userService.validateCreateUserIncomingRequest(body);
+			
     		//2. pass request to service layer
 			UtilityMethods.assertOverload(Objects.isNull(userService.addUser(body)), new ValidationException("Couldnot Add New User!!!"));
     			

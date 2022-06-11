@@ -1,6 +1,8 @@
 package com.getseatgo.gsgspring.service;
 
 
+import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -84,6 +86,15 @@ public class UserService {
 		fetchUserDetailsResponse.setAddress(address);
 		
 		return fetchUserDetailsResponse;
+	}
+
+	public void validateCreateUserIncomingRequest(CreateUserRequest body) throws Exception {
+		UtilityMethods.assertOverload(Objects.isNull(body) , new ValidationException("Invalid Payload Body Exception"));
+		UtilityMethods.assertOverload(StringUtils.isEmpty(body.getUsername()) , new ValidationException("Invalid Payload Email/Username Exception"));
+		UtilityMethods.assertOverload(StringUtils.isEmpty(body.getPassword()) , new ValidationException("Invalid Payload Password Exception"));
+		UtilityMethods.assertOverload(StringUtils.isEmpty(body.getFirstname()) , new ValidationException("Invalid Payload Firstname Exception"));
+		UtilityMethods.assertOverload(StringUtils.isEmpty(body.getLastname()) , new ValidationException("Invalid Payload Lasttname Exception"));
+				
 	}
 
 //    @Transactional(readOnly = true)

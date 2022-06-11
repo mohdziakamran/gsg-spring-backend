@@ -2,43 +2,50 @@ package com.getseatgo.gsgspring.model;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({ "source", "destination", "date_of_journey" })
 public class QueryRequest implements Serializable {
 
-    private static final long serialVersionUID = 5926468583005150707L;
+	@JsonProperty("source")
+	private String source;
+	@JsonProperty("destination")
+	private String destination;
+	@JsonProperty("date_of_journey")
+	private String dateOfJourney;
+	private final static long serialVersionUID = -253723775822213392L;
 
-    private String sourceBusStop;
-    private String destinationBusStop;
-    //Format dd-MM-YYYY
-    private String dateOfJourney;
-	public QueryRequest() {
-		super();
-		// TODO Auto-generated constructor stub
+	@JsonProperty("source")
+	public String getSource() {
+		return source;
 	}
-	public QueryRequest(String sourceBusStop, String destinationBusStop, String dateOfJourney) {
-		super();
-		this.sourceBusStop = sourceBusStop;
-		this.destinationBusStop = destinationBusStop;
-		this.dateOfJourney = dateOfJourney;
+
+	@JsonProperty("source")
+	public void setSource(String source) {
+		this.source = source;
 	}
-	public String getSourceBusStop() {
-		return sourceBusStop;
+
+	@JsonProperty("destination")
+	public String getDestination() {
+		return destination;
 	}
-	public void setSourceBusStop(String sourceBusStop) {
-		this.sourceBusStop = sourceBusStop;
+
+	@JsonProperty("destination")
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
-	public String getDestinationBusStop() {
-		return destinationBusStop;
-	}
-	public void setDestinationBusStop(String destinationBusStop) {
-		this.destinationBusStop = destinationBusStop;
-	}
+
+	@JsonProperty("date_of_journey")
 	public String getDateOfJourney() {
 		return dateOfJourney;
 	}
+
+	@JsonProperty("date_of_journey")
 	public void setDateOfJourney(String dateOfJourney) {
 		this.dateOfJourney = dateOfJourney;
 	}
-    
-    
 
 }
