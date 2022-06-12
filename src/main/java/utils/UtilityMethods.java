@@ -1,5 +1,8 @@
 package utils;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class UtilityMethods {
 	
     /**
@@ -13,4 +16,12 @@ public class UtilityMethods {
     	if(bool) 
     		throw exception;
 	}
+    
+    /**Method to return day string like monday
+     * @param date
+     * @return
+     */
+    public static String getDayOfWeek(String date){
+    	  return LocalDate.parse(date, DateTimeFormatter.ofPattern("dd-MM-yyyy")).getDayOfWeek().name();
+    	}
 }

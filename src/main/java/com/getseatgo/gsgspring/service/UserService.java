@@ -94,7 +94,6 @@ public class UserService {
 		UtilityMethods.assertOverload(StringUtils.isEmpty(body.getPassword()) , new ValidationException("Invalid Payload Password Exception"));
 		UtilityMethods.assertOverload(StringUtils.isEmpty(body.getFirstname()) , new ValidationException("Invalid Payload Firstname Exception"));
 		UtilityMethods.assertOverload(StringUtils.isEmpty(body.getLastname()) , new ValidationException("Invalid Payload Lasttname Exception"));
-				
 	}
 
 //    @Transactional(readOnly = true)

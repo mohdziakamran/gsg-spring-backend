@@ -46,7 +46,7 @@ public class Result implements Serializable
     @JsonProperty("arrival_time")
     private String arrivalTime;
     @JsonProperty("fare_for_one_seat")
-    private Integer fareForOneSeat;
+    private Double fareForOneSeat;
     private final static long serialVersionUID = 6598718005984486971L;
 
     @JsonProperty("bus_id")
@@ -150,12 +150,12 @@ public class Result implements Serializable
     }
 
     @JsonProperty("fare_for_one_seat")
-    public Integer getFareForOneSeat() {
+    public Double getFareForOneSeat() {
         return fareForOneSeat;
     }
 
     @JsonProperty("fare_for_one_seat")
-    public void setFareForOneSeat(Integer fareForOneSeat) {
+    public void setFareForOneSeat(Double fareForOneSeat) {
         this.fareForOneSeat = fareForOneSeat;
     }
 

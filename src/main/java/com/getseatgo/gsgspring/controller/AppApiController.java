@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.getseatgo.gsgspring.exceptions.ValidationException;
 import com.getseatgo.gsgspring.model.QueryRequest;
-import com.getseatgo.gsgspring.model.entitymodel.BusStop;
+import com.getseatgo.gsgspring.model.QueryResponse;
+import com.getseatgo.gsgspring.service.AppApiService;
 import com.getseatgo.gsgspring.service.BusStopService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,6 +24,9 @@ public class AppApiController {
 	
 	@Autowired
 	private BusStopService busStopService;
+	
+	@Autowired
+	private AppApiService appApiService;
 	
 	
 	@GetMapping("/all-bus-stops")
@@ -35,25 +40,25 @@ public class AppApiController {
 		return ResponseEntity.ok(allBusStopNames);
 	}
 	
-	@PostMapping("/booking-query")
+	@PostMapping("/search-query")
 	public ResponseEntity<?> getQueryResult(@RequestBody QueryRequest queryRequest){
-		//TODO Logic to fetch details absed on bate and src and desination
+		// Logic to fetch details absed on bate and src and desination
+		QueryResponse response=null; 
 		try {
-			BusStop sourceBS=busStopService.fetchBusStop(queryRequest.getSourceBusStop().toUpperCase());
-			BusStop destinationBS=busStopService.fetchBusStop(queryRequest.getDestinationBusStop().toUpperCase());
-			//TODO
-			
-			
+			response=appApiService.processSearchQuery(queryRequest);
 		} catch (Exception e) {
-			// TODO: handle exception
+			//logger.info("Exception occured while Search Query, Error: {}",e.getMessage());
+			if (e instanceof ValidationException)
+				return ResponseEntity.badRequest().body(e.getMessage());
+			return ResponseEntity.badRequest().body("Internal Server Error");
 		}
 		
-		return null;
+		return ResponseEntity.ok(response);
 	}
 	
 	@PostMapping("/current-seats-avl")
 	public ResponseEntity<?> getSeatsAvl(@RequestBody Object queryRequest){
-		//TODO 
+		
 		return null;
 	}
 	

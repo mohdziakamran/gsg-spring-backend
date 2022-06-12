@@ -1,7 +1,5 @@
 package com.getseatgo.gsgspring.model.entitymodel;
 
-import java.sql.Time;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,25 +27,20 @@ public class BusRouteInfo {
     private Long departureTimeInSec;
     private Long travelDurationInSec;
     private String routeSeq;
-	public BusRouteInfo() {
-		super();
-	}
+//    @ManyToOne (fetch = FetchType.LAZY)
+//    private BusWeeklySchedule busWeeklySchedule;
+    
+//	public BusWeeklySchedule getBusWeeklySchedule() {
+//		return busWeeklySchedule;
+//	}
+//	public void setBusWeeklySchedule(BusWeeklySchedule busWeeklySchedule) {
+//		this.busWeeklySchedule = busWeeklySchedule;
+//	}
 	public Long getDepartureTimeInSec() {
 		return departureTimeInSec;
 	}
 	public void setDepartureTimeInSec(Long departureTimeInSec) {
 		this.departureTimeInSec = departureTimeInSec;
-	}
-	public BusRouteInfo(BusInfo bus, BusStop startBusStop, BusStop endBusStop, Double fare, Long departureTimeInSec,
-			Long travelDurationInSec, String routeSeq) {
-		super();
-		this.bus = bus;
-		this.startBusStop = startBusStop;
-		this.endBusStop = endBusStop;
-		this.fare = fare;
-		this.departureTimeInSec = departureTimeInSec;
-		this.travelDurationInSec = travelDurationInSec;
-		this.routeSeq = routeSeq;
 	}
 	public Long getId() {
 		return id;

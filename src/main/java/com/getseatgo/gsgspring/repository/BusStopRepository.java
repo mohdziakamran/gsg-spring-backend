@@ -10,4 +10,5 @@ public interface BusStopRepository extends JpaRepository<BusStop,Long> {
 	
 	BusStop findByBusStopName(String busStopName);
 
+	boolean existsByBusStopName(String busStopName);
 }

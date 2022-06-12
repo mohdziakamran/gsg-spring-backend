@@ -32,23 +32,6 @@ public class AgencyApiController {
 	@Autowired
 	private JwtToken jwtToken;
 
-
-    /**
-     * It (first-step) creates Agency and its agents users with minimal data 
-     * @param body
-     * @return
-     */
-    @PostMapping("/create-abstract-agency")
-    public ResponseEntity<?> createAbstractAgency(@RequestBody CreateAbstractAgencyRequest body){
-    	CreateAbstractAgencyResponse response;
-    	try {
-    		agencyService.validateCreateAbstractAgencyRequest(body);
-    		response=agencyService.addAbstractAgencyAndAgents(body);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
-    	return ResponseEntity.ok(response);
-    }
     
     /**Update Agency details endpoint for Agents
      * @param body

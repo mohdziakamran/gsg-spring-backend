@@ -5,7 +5,6 @@ package com.getseatgo.gsgspring.controller;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

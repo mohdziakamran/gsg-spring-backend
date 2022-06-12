@@ -10,97 +10,52 @@ import javax.persistence.ManyToOne;
 @Entity
 public class BusWeeklySchedule {
 
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private BusInfo bus;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private BusStop startBusStop;
-    private boolean monday;
-    private boolean tuesday;
-    private boolean wednesday;
-    private boolean thursday;
-    private boolean friday;
-    private boolean saturday;
-    private boolean sunday;
+    @ManyToOne (fetch = FetchType.EAGER)
+    private BusRouteInfo route;
+    private String day;
     
-	public BusWeeklySchedule() {
-		super();
-	}
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private BusInfo bus;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private BusStop startBusStop;
+//    private boolean monday;
+//    private boolean tuesday;
+//    private boolean wednesday;
+//    private boolean thursday;
+//    private boolean friday;
+//    private boolean saturday;
+//    private boolean sunday;
+    
+
+    
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public BusInfo getBus() {
-		return bus;
+	public BusRouteInfo getRoute() {
+		return route;
 	}
-	public void setBus(BusInfo bus) {
-		this.bus = bus;
+	public void setRoute(BusRouteInfo route) {
+		this.route = route;
 	}
-	public BusStop getStartBusStop() {
-		return startBusStop;
+	public String getDay() {
+		return day;
 	}
-	public void setStartBusStop(BusStop busStop) {
-		this.startBusStop = busStop;
-	}
-	public BusWeeklySchedule(BusInfo busInfo, BusStop busStop, boolean monday, boolean tuesday, boolean wednesday,
-			boolean thursday, boolean friday, boolean saturday, boolean sunday) {
-		super();
-		this.bus = busInfo;
-		this.startBusStop = busStop;
-		this.monday = monday;
-		this.tuesday = tuesday;
-		this.wednesday = wednesday;
-		this.thursday = thursday;
-		this.friday = friday;
-		this.saturday = saturday;
-		this.sunday = sunday;
-	}
-	public boolean isMonday() {
-		return monday;
-	}
-	public void setMonday(boolean monday) {
-		this.monday = monday;
-	}
-	public boolean isTuesday() {
-		return tuesday;
-	}
-	public void setTuesday(boolean tuesday) {
-		this.tuesday = tuesday;
-	}
-	public boolean isWednesday() {
-		return wednesday;
-	}
-	public void setWednesday(boolean wednesday) {
-		this.wednesday = wednesday;
-	}
-	public boolean isThursday() {
-		return thursday;
-	}
-	public void setThursday(boolean thursday) {
-		this.thursday = thursday;
-	}
-	public boolean isFriday() {
-		return friday;
-	}
-	public void setFriday(boolean friday) {
-		this.friday = friday;
-	}
-	public boolean isSaturday() {
-		return saturday;
-	}
-	public void setSaturday(boolean saturday) {
-		this.saturday = saturday;
-	}
-	public boolean isSunday() {
-		return sunday;
-	}
-	public void setSunday(boolean sunday) {
-		this.sunday = sunday;
+	public void setDay(String day) {
+		this.day = day;
 	}
     
-
+    public BusWeeklySchedule() {
+		super();
+	}
+	public BusWeeklySchedule(BusRouteInfo route, String day) {
+		super();
+		this.route = route;
+		this.day = day;
+	}
 }

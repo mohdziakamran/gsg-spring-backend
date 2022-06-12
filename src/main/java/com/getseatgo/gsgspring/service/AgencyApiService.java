@@ -59,12 +59,22 @@ public class AgencyApiService {
 	 * @param body
 	 * @throws Exception
 	 */
-	public void validateCreateAbstractAgencyRequest(CreateAbstractAgencyRequest body) throws Exception {
+	public void validateCreateAbstractAgencyRequest(CreateAbstractAgencyRequest body,String username) throws Exception {
 		//name, email should not be null or redundant
+		validateAdminUser(username);
 		UtilityMethods.assertOverload(StringUtils.isEmpty(body.getName()), new ValidationException("Invalid Request Data"));
 		UtilityMethods.assertOverload(StringUtils.isEmpty(body.getEamil()), new ValidationException("Invalid Request Data"));
 		UtilityMethods.assertOverload(Objects.nonNull(agencyInfoRepository.findByAgencyName(body.getName())), new ValidationException("Agency Name: '"+body.getName()+"' Already Exist!!!"));
 		UtilityMethods.assertOverload(Objects.nonNull(agencyInfoRepository.findByEmail(body.getEamil())), new ValidationException("Agency Email: '"+body.getEamil()+"' Already Exist!!!"));
+	}
+	/**Method to validate user from token it should be Agent to make this request
+	 * @param username
+	 * @return
+	 * @throws Exception
+	 */
+	private void validateAdminUser(String username) throws Exception {
+		UtilityMethods.assertOverload(!StringUtils.equalsIgnoreCase(username, "admin"), new ValidationException("Invalid User Type - Not Privillaged user"));
+//		logger.info("Validation Successfull for Agency : {}", agencyInfo.getAgencyName());
 	}
 
 	/**Method to add (minimal agency data) and (default Agents Credentials)
@@ -160,6 +170,7 @@ public class AgencyApiService {
 		UtilityMethods.assertOverload(Objects.isNull(body.getBuses()) || body.getBuses().isEmpty(), new ValidationException("Error : Incoming Request is Empty"));
 		for (Bus bus:body.getBuses()) {
 			UtilityMethods.assertOverload(Objects.isNull(bus), new ValidationException("Error : Incoming Request Bus List has Null Object"));
+			//TODO -(one idea is)- if bus name is empty we will take (src to final-dest) as name
 			UtilityMethods.assertOverload(StringUtils.isEmpty(bus.getBusName()), new ValidationException("Error : Incoming Request field, Bus Name is Empty"));
 			UtilityMethods.assertOverload(StringUtils.isEmpty(bus.getBusNumber()), new ValidationException("Error : Incoming Request field, Bus Bumber is Empty"));
 			UtilityMethods.assertOverload(StringUtils.isEmpty(bus.getStartBusStop()), new ValidationException("Error : Incoming Request field, Starting Bus Stop is Empty"));
@@ -199,8 +210,9 @@ public class AgencyApiService {
 			for (int i=0; i<bus.getBusRoutes().size(); i++) {
 
 				//create bus weeklySchedule (for every bus stop as start) & add bus to it ->save()
-				BusWeeklySchedule busSchedule=createSchedule(busInfo,beginBusStop,scheduleArr,departureDuration.plus(gap).toDaysPart());
-				busSchedule=busWeeklyScheduleRepository.save(busSchedule);
+//				BusWeeklySchedule busSchedule=createSchedule(busInfo,beginBusStop,scheduleArr,departureDuration.plus(gap).toDaysPart());
+//				busSchedule=fetchAndSaveSchedule(busSchedule);
+//				busSchedule=busWeeklyScheduleRepository.save(busSchedule);
 				
 				//go in forloop and add route details for the bus -> save()
 				for(int j=i;j<bus.getBusRoutes().size();j++) {
@@ -219,6 +231,7 @@ public class AgencyApiService {
 					sequence+=(char)(seq+1+j);
 					
 					busRouteInfo=busRouteInfoRepository.save(busRouteInfo);
+					createAndSaveSchedule(busRouteInfo,scheduleArr,departureDuration.plus(gap).toDaysPart());
 					
 				}
 				beginBusStop=fetchBusStop(bus.getBusRoutes().get(i).getBusStop(),cacheBusStopMap);
@@ -266,19 +279,21 @@ public class AgencyApiService {
 	 * @param index
 	 * @return
 	 */
-	private BusWeeklySchedule createSchedule(BusInfo busInfo, BusStop beginBusStop, boolean[] scheduleArr, long index) {
-		BusWeeklySchedule busWeeklySchedule=new BusWeeklySchedule();
-		busWeeklySchedule.setBus(busInfo);
-		busWeeklySchedule.setStartBusStop(beginBusStop);
-		busWeeklySchedule.setMonday(scheduleArr[Math.floorMod((0-index), 7)]);
-		busWeeklySchedule.setTuesday(scheduleArr[Math.floorMod((1-index), 7)]);
-		busWeeklySchedule.setWednesday(scheduleArr[Math.floorMod((2-index), 7)]);
-		busWeeklySchedule.setThursday(scheduleArr[Math.floorMod((3-index), 7)]);
-		busWeeklySchedule.setFriday(scheduleArr[Math.floorMod((4-index), 7)]);
-		busWeeklySchedule.setSaturday(scheduleArr[Math.floorMod((5-index), 7)]);
-		busWeeklySchedule.setSunday(scheduleArr[Math.floorMod((6-index), 7)]);
-		
-		return busWeeklySchedule;
+	private void createAndSaveSchedule(BusRouteInfo busRouteInfo, boolean[] scheduleArr, long index) {
+		if(scheduleArr[Math.floorMod((0-index), 7)]) 
+			busWeeklyScheduleRepository.save(new BusWeeklySchedule(busRouteInfo,"MONDAY"));
+		if(scheduleArr[Math.floorMod((1-index), 7)]) 
+			busWeeklyScheduleRepository.save(new BusWeeklySchedule(busRouteInfo,"TUESDAY"));
+		if(scheduleArr[Math.floorMod((2-index), 7)]) 
+			busWeeklyScheduleRepository.save(new BusWeeklySchedule(busRouteInfo,"WEDNESDAY"));
+		if(scheduleArr[Math.floorMod((3-index), 7)]) 
+			busWeeklyScheduleRepository.save(new BusWeeklySchedule(busRouteInfo,"THURSDAY"));
+		if(scheduleArr[Math.floorMod((4-index), 7)]) 
+			busWeeklyScheduleRepository.save(new BusWeeklySchedule(busRouteInfo,"FRIDAY"));
+		if(scheduleArr[Math.floorMod((5-index), 7)]) 
+			busWeeklyScheduleRepository.save(new BusWeeklySchedule(busRouteInfo,"SATURDAY"));
+		if(scheduleArr[Math.floorMod((6-index), 7)]) 
+			busWeeklyScheduleRepository.save(new BusWeeklySchedule(busRouteInfo,"SUNDAY"));
 	}
 
 	/**Method to Dete Bus Details based on Busname and bus Number and Agency match
@@ -287,7 +302,7 @@ public class AgencyApiService {
 	 * @param busNumber
 	 */
 	public void processDeleteBusRequest(String username, String busName, String busNumber) {
-		
+		//TODO
 		//***validation
 		//validate user is from any agency
 		//check bus exist with given anme and number 
@@ -309,6 +324,7 @@ public class AgencyApiService {
 	 * @param body
 	 */
 	public void processUpdateBusRequest(String username, String busName, String busNumber, Bus body) {
+		//TODO
 		//***validation
 		//Note: we can add code from delete bus	
 		//validate user is from any agency
