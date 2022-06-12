@@ -67,7 +67,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 		"/swagger-ui.html",
                 		"/swagger-ui/**" ,
                 		"/v3/api-docs/**",
-                		"/search-query"
+                		"/search-query",
+                		"/curent-seats-avl"
                 		).permitAll().
 
         anyRequest().authenticated().and().

@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.getseatgo.gsgspring.exceptions.ValidationException;
+import com.getseatgo.gsgspring.model.CurrentSeatAvlRequest;
+import com.getseatgo.gsgspring.model.CurrentSeatAvlResponse;
 import com.getseatgo.gsgspring.model.QueryRequest;
 import com.getseatgo.gsgspring.model.QueryResponse;
 import com.getseatgo.gsgspring.model.Result;
@@ -22,6 +24,7 @@ import com.getseatgo.gsgspring.model.entitymodel.BusDateSeatAvailabilityInfo;
 import com.getseatgo.gsgspring.model.entitymodel.BusInfo;
 import com.getseatgo.gsgspring.model.entitymodel.BusRouteInfo;
 import com.getseatgo.gsgspring.repository.BusDateSeatAvailabilityInfoRepository;
+import com.getseatgo.gsgspring.repository.BusInfoRepository;
 import com.getseatgo.gsgspring.repository.BusStopRepository;
 
 import utils.UtilityMethods;
@@ -32,6 +35,8 @@ public class AppApiService {
 	private String dateFormat="dd-MM-yyyy";
 	private DateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+	@Autowired
+    private BusInfoRepository busInfoRepository;
 	@Autowired
     private BusStopRepository busStopRepository;
 	@Autowired
@@ -90,6 +95,43 @@ public class AppApiService {
 		}
 		
 		return queryResponse;
+	}
+
+
+	/**Method to validate request And return response with Current seats Avl for specific bus and route
+	 * @param request
+	 * @return
+	 * @throws Exception 
+	 */
+	public CurrentSeatAvlResponse processAvlSeatsQuery(CurrentSeatAvlRequest request) throws Exception {
+		//***Validate
+		//the date must be > now
+		//bus should exist
+		// source and destination bus stop should exists in db
+		UtilityMethods.assertOverload(Objects.isNull(request), new ValidationException("Request Object is Null"));
+		UtilityMethods.assertOverload(StringUtils.isEmpty(request.getDate()), new ValidationException("Date Input is Invalid"));
+		Date date=DateUtils.parseDate(request.getDate(), dateFormat);
+		Date now=new Date();//use timezone TODO now.compareTo(date)>0
+		UtilityMethods.assertOverload(now.after(date), new ValidationException("Date Input is Invalid"));
+		UtilityMethods.assertOverload(!busStopRepository.existsByBusStopName(request.getSource()), 
+				new ValidationException("Error : Source Bus Stop is Invalid"));
+		UtilityMethods.assertOverload(!busStopRepository.existsByBusStopName(request.getDestination()), 
+				new ValidationException("Error : Destination Bus Stop is Invalid"));
+		long longBusId = Long.parseLong(request.getBusId());
+		UtilityMethods.assertOverload(!busInfoRepository.existsById(longBusId), new ValidationException("Invalid Bus Details"));
+
+		//***Process
+		//search in  Bus date table where date, source, destination and bus match
+		// transform and return
+		CurrentSeatAvlResponse response= new CurrentSeatAvlResponse();
+		
+		BusDateSeatAvailabilityInfo busDateSeatAvailabilityInfo = busDateSeatAvailabilityInfoRepository
+				.findAllByJourneyDateAndBusRouteStartBusStopBusStopNameAndBusRouteEndBusStopBusStopNameAndBusRouteBusId(
+						new java.sql.Date(date.getTime()), request.getSource(), request.getDestination(), longBusId);
+		if(Objects.nonNull(busDateSeatAvailabilityInfo)) {
+			response.setAvlSeats(busDateSeatAvailabilityInfo.getSeatAvailable());
+		}
+		return response;
 	}
 	
 	

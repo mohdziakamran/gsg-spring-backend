@@ -14,4 +14,7 @@ public interface BusDateSeatAvailabilityInfoRepository extends JpaRepository<Bus
 	List<BusDateSeatAvailabilityInfo> findAllByJourneyDate(Date journeyDate);
 	
 	 List<BusDateSeatAvailabilityInfo> findAllByJourneyDateAndBusRouteStartBusStopBusStopNameAndBusRouteEndBusStopBusStopName(Date journeyDate, String startBusStopBusStopName, String endBusStopBusStopName);
+	 
+	 BusDateSeatAvailabilityInfo findAllByJourneyDateAndBusRouteStartBusStopBusStopNameAndBusRouteEndBusStopBusStopNameAndBusRouteBusId(Date journeyDate, String startBusStopBusStopName, String endBusStopBusStopName,Long id);
+	 
 }

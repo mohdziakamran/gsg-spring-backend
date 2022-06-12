@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.getseatgo.gsgspring.exceptions.ValidationException;
+import com.getseatgo.gsgspring.model.CurrentSeatAvlRequest;
+import com.getseatgo.gsgspring.model.CurrentSeatAvlResponse;
 import com.getseatgo.gsgspring.model.QueryRequest;
 import com.getseatgo.gsgspring.model.QueryResponse;
 import com.getseatgo.gsgspring.service.AppApiService;
@@ -56,10 +58,20 @@ public class AppApiController {
 		return ResponseEntity.ok(response);
 	}
 	
-	@PostMapping("/current-seats-avl")
-	public ResponseEntity<?> getSeatsAvl(@RequestBody Object queryRequest){
+	@PostMapping("/curent-seats-avl")
+	public ResponseEntity<?> getSeatsAvl(@RequestBody CurrentSeatAvlRequest request){
 		
-		return null;
+		CurrentSeatAvlResponse response=null; 
+		try {
+			response=appApiService.processAvlSeatsQuery(request);
+		} catch (Exception e) {
+			//logger.info("Exception occured while Search Query, Error: {}",e.getMessage());
+			if (e instanceof ValidationException)
+				return ResponseEntity.badRequest().body(e.getMessage());
+			return ResponseEntity.badRequest().body("Internal Server Error");
+		}
+		
+		return ResponseEntity.ok(response);
 	}
 	
 	@PostMapping("/tid-query")
